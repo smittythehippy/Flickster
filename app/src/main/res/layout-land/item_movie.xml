@@ -7,7 +7,7 @@
 
     <ImageView
         android:id="@+id/ivPoster"
-        android:layout_width="122dp"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
@@ -45,7 +45,7 @@
     <TextView
         android:id="@+id/tvOverview"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
@@ -63,5 +63,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="205dp" />
+        app:layout_constraintGuide_begin="385dp" />
 </android.support.constraint.ConstraintLayout>
