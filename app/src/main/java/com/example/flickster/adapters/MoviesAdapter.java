@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,7 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
+public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context context;
     List<Movie> movies;
@@ -33,23 +34,77 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         Log.d("smile", "OnCreateViewHolder");
-        View view = LayoutInflater.from(context).inflate(R.layout.item_movie, viewGroup, false);
-        return new ViewHolder(view);
+        int choice = 0;
+        double baseline = 5;
+        double movieRating = movies.get(i).getRating();
+
+        // Test for landscape orientation here
+        if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+            return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_movie, viewGroup, false));
+        else {
+            // If statement here to decide which xml file to inflate
+            if (movieRating >= baseline) {
+                choice = 0;
+            } else {
+                choice = 1;
+            }
+
+            switch (choice) {
+                case 0:
+                    return new ViewHolderBackDropOnly(LayoutInflater.from(context).inflate(R.layout.backdrop_only, viewGroup, false));
+                case 1:
+                    return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_movie, viewGroup, false));
+            }
+            return null;
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         Log.d("smile", "OnBindViewHolder: " + position);
         Movie movie = movies.get(position);
-         //Binding movie data into view holder
-        viewHolder.bind(movie);
+
+        //Binding movie data into view holder
+        if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            ViewHolder vh1 = (ViewHolder)viewHolder;
+            vh1.bind(movie);
+        }
+        else{
+            if(movies.get(position).getRating() < 5.0) {
+                ViewHolder vh1 = (ViewHolder)viewHolder;
+                vh1.bind(movie);
+            }
+            else {
+                ViewHolderBackDropOnly vh2 = (ViewHolderBackDropOnly)viewHolder;
+                vh2.bind(movie);
+            }
+        }
     }
 
     @Override
     public int getItemCount() {
         return movies.size();
+    }
+
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    class ViewHolderBackDropOnly extends RecyclerView.ViewHolder{
+
+        ImageView ivBackdrop;
+
+        public ViewHolderBackDropOnly(@NonNull View itemView){
+            super(itemView);
+            ivBackdrop = itemView.findViewById(R.id.ivBackdrop);
+        }
+
+        public void bind(Movie movie) {
+            Glide.with(context).load(movie.getBackdropPath()).into(ivBackdrop);
+        }
+
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
