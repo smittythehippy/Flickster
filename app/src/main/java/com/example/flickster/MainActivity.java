@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
         rvMovies.setAdapter(adapter);
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(MOVIE_URL, new JsonHttpResponseHandler(){
+        client.get(MOVIE_URL, new JsonHttpResponseHandler() {
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {

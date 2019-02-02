@@ -3,6 +3,7 @@ package com.example.flickster.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,13 +33,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        Log.d("smile", "OnCreateViewHolder");
         View view = LayoutInflater.from(context).inflate(R.layout.item_movie, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        Movie movie = movies.get(i);
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+        Log.d("smile", "OnBindViewHolder: " + position);
+        Movie movie = movies.get(position);
          //Binding movie data into view holder
         viewHolder.bind(movie);
     }
