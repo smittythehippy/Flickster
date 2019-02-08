@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView rvMovies = findViewById(R.id.rvMovies);
         movies = new ArrayList<>();
         final MoviesAdapter adapter = new MoviesAdapter(this, movies);
+
         rvMovies.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         rvMovies.setAdapter(adapter);
 
