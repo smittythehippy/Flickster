@@ -2,7 +2,9 @@ package com.example.flickster;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -25,9 +27,11 @@ import cz.msebera.android.httpclient.Header;
 
 public class DetailActivity extends YouTubeBaseActivity {
 
-    Context context;
     private static final String YOUTUBE_API_KEY = "AIzaSyAgpdXCRz4VNU0_QxzALSVinrSoS1W66jk";
     private static final String TRAILERS_API = "https://api.themoviedb.org/3/movie/%d/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+
+    Movie movie;
+
     TextView tvTitle;
     TextView tvOverview;
     TextView tvRelease;
@@ -36,9 +40,9 @@ public class DetailActivity extends YouTubeBaseActivity {
     YouTubePlayerView youTubePlayerView;
 
 
-    Movie movie;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
@@ -47,13 +51,19 @@ public class DetailActivity extends YouTubeBaseActivity {
         tvRelease = findViewById(R.id.tvRelease);
         ratingBar = findViewById(R.id.ratingBar);
         youTubePlayerView = findViewById(R.id.player);
-        //ivBackdrop = findViewById(R.id.player);
+        ivBackdrop = findViewById(R.id.ivBackdrop);
         movie = Parcels.unwrap(getIntent().getParcelableExtra("movie"));
 
         tvTitle.setText(movie.getTitle());
-        tvOverview.setText(movie.getOverview());
+        tvOverview.setText("     " + movie.getOverview());
         ratingBar.setRating((float)movie.getRating());
-        tvRelease.setText(movie.getReleaseDate());
+        //Change format of release dates
+
+        tvRelease.setText("Release Date: " + movie.getReleaseDate());
+
+
+        Glide.with(this).load(movie.getBackdropPath()).into(ivBackdrop);
+        ivBackdrop.setVisibility(View.INVISIBLE);
 
         //Get all trailers for movie
         AsyncHttpClient client = new AsyncHttpClient();
@@ -64,7 +74,8 @@ public class DetailActivity extends YouTubeBaseActivity {
                 try {
                     JSONArray results = response.getJSONArray("results");
                     if(results.length() == 0){
-                        //Glide.with(context).load(movie.getBackdropPath()).into(ivBackdrop);
+                        youTubePlayerView.setVisibility(View.INVISIBLE);
+                        ivBackdrop.setVisibility(View.VISIBLE);
                         return;
                     }
                     else {
@@ -82,9 +93,6 @@ public class DetailActivity extends YouTubeBaseActivity {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         });
-
-
-
     }
 
     private void initializeYoutube(final String youtubeKey) {
@@ -92,7 +100,12 @@ public class DetailActivity extends YouTubeBaseActivity {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                 Log.d("smile", "sucesss");
-                youTubePlayer.cueVideo(youtubeKey);
+                if(movie.getRating() >= 5){
+                    youTubePlayer.loadVideo(youtubeKey);
+                }
+                else {
+                    youTubePlayer.cueVideo(youtubeKey);
+                }
             }
 
             @Override

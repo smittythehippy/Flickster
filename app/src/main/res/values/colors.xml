@@ -2,4 +2,5 @@
 <resources>
     <color name="actionBar">#000000</color>
     <color name="actionBarText">#075899</color>
+    <color name="textColor">#FFFFFF</color>
 </resources>

@@ -28,7 +28,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     Context context;
     List<Movie> movies;
-    double baseline = 7.0;
+    double baseline = 5.0;
 
     public MoviesAdapter(Context context, List<Movie> movies) {
         this.context = context;
