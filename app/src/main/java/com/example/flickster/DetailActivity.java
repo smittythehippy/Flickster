@@ -19,6 +19,7 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.sefford.circularprogressdrawable.CircularProgressDrawable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +32,15 @@ public class DetailActivity extends YouTubeBaseActivity {
 
     private static final String YOUTUBE_API_KEY = "AIzaSyAgpdXCRz4VNU0_QxzALSVinrSoS1W66jk";
     private static final String TRAILERS_API = "https://api.themoviedb.org/3/movie/%d/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+
+
+    CircularProgressDrawable circular = new CircularProgressDrawable
+            .Builder()
+            .setRingWidth(50)
+            .setOutlineColor(R.color.circularOuter)
+            .setRingColor(R.color.circularInner)
+            .setCenterColor(R.color.circularCenter)
+            .create();
 
     Movie movie;
 
@@ -56,17 +66,17 @@ public class DetailActivity extends YouTubeBaseActivity {
         youTubePlayerView = findViewById(R.id.player);
         ivBackdrop = findViewById(R.id.ivBackdrop);
         movie = Parcels.unwrap(getIntent().getParcelableExtra("movie"));
-
         tvTitle.setText(movie.getTitle());
         tvOverview.setText("     " + movie.getOverview());
         ratingBar.setRating((float)movie.getRating());
 
-        //Change format of release dates
-
         tvRelease.setText("Release Date: " + movie.getReleaseDate());
 
 
-        Glide.with(this).load(movie.getBackdropPath()).into(ivBackdrop);
+        GlideApp.with(this)
+                .load(movie.getBackdropPath())
+                .into(ivBackdrop);
+
         ivBackdrop.setVisibility(View.INVISIBLE);
 
         ratingInfo.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +94,7 @@ public class DetailActivity extends YouTubeBaseActivity {
                 try {
                     JSONArray results = response.getJSONArray("results");
                     if(results.length() == 0){
+
                         youTubePlayerView.setVisibility(View.INVISIBLE);
                         ivBackdrop.setVisibility(View.VISIBLE);
                     }

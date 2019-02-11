@@ -3,4 +3,7 @@
     <color name="actionBar">#000000</color>
     <color name="actionBarText">#075899</color>
     <color name="textColor">#FFFFFF</color>
+    <color name="circularOuter">#00CDFF</color>
+    <color name="circularInner">#0022FF</color>
+    <color name="circularCenter">#0099FF</color>
 </resources>

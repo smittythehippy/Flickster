@@ -3,32 +3,47 @@ package com.example.flickster.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+import com.sefford.circularprogressdrawable.CircularProgressDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.annotation.GlideModule;
+import com.bumptech.glide.module.AppGlideModule;
+
 import com.example.flickster.DetailActivity;
+import com.example.flickster.GlideApp;
 import com.example.flickster.Models.Movie;
 import com.example.flickster.R;
 
-import org.parceler.Parcel;
 import org.parceler.Parcels;
 
 import java.util.List;
 
-public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MoviesAdapter<val> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context context;
     List<Movie> movies;
-    double baseline = 5.0;
+    final static double baseline = 5.0;
+
+    CircularProgressDrawable circular;
 
     public MoviesAdapter(Context context, List<Movie> movies) {
         this.context = context;
@@ -88,16 +103,34 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     class ViewHolderBackDropOnly extends RecyclerView.ViewHolder{
 
         ImageView ivBackdrop;
+        ProgressBar progressBar;
         ConstraintLayout container;
 
         public ViewHolderBackDropOnly(@NonNull View itemView){
             super(itemView);
             ivBackdrop = itemView.findViewById(R.id.ivBackdrop);
             container = itemView.findViewById(R.id.container);
+            progressBar = itemView.findViewById(R.id.progressBar);
         }
 
         public void bind(final Movie movie) {
-            Glide.with(context).load(movie.getBackdropPath()).into(ivBackdrop);
+
+            GlideApp.with(context)
+                    .load(movie.getBackdropPath())
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            progressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            progressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+                    })
+                    .into(ivBackdrop);
 
             //Add click listener on the whole row
             //Navigate to detail activity
@@ -118,12 +151,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         TextView tvOverview;
         ImageView ivPoster;
         ConstraintLayout container;
+        ProgressBar progressBar;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvOverview = itemView.findViewById(R.id.tvOverview);
             ivPoster = itemView.findViewById(R.id.ivPoster);
+            progressBar = itemView.findViewById(R.id.progressBar);
             container = itemView.findViewById(R.id.container);
         }
 
@@ -136,7 +171,22 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
                 imageUrl = movie.getBackdropPath();
             }
-            Glide.with(context).load(imageUrl).into(ivPoster);
+            GlideApp.with(context)
+                    .load(imageUrl)
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            progressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            progressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+                    })
+                    .into(ivPoster);
 
             //Add click listener on the whole row
             //Navigate to detail activity
@@ -150,4 +200,5 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
         }
     }
+
 }
