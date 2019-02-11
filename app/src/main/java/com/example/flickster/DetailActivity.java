@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.flickster.Models.Movie;
@@ -38,7 +40,7 @@ public class DetailActivity extends YouTubeBaseActivity {
     RatingBar ratingBar;
     ImageView ivBackdrop;
     YouTubePlayerView youTubePlayerView;
-
+    Button ratingInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class DetailActivity extends YouTubeBaseActivity {
         tvOverview = findViewById(R.id.tvOverview);
         tvRelease = findViewById(R.id.tvRelease);
         ratingBar = findViewById(R.id.ratingBar);
+        ratingInfo = findViewById(R.id.ratingInfo);
         youTubePlayerView = findViewById(R.id.player);
         ivBackdrop = findViewById(R.id.ivBackdrop);
         movie = Parcels.unwrap(getIntent().getParcelableExtra("movie"));
@@ -57,6 +60,7 @@ public class DetailActivity extends YouTubeBaseActivity {
         tvTitle.setText(movie.getTitle());
         tvOverview.setText("     " + movie.getOverview());
         ratingBar.setRating((float)movie.getRating());
+
         //Change format of release dates
 
         tvRelease.setText("Release Date: " + movie.getReleaseDate());
@@ -65,6 +69,12 @@ public class DetailActivity extends YouTubeBaseActivity {
         Glide.with(this).load(movie.getBackdropPath()).into(ivBackdrop);
         ivBackdrop.setVisibility(View.INVISIBLE);
 
+        ratingInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), String.format("%s average from %d total votes.", movie.getRating(), movie.getVoteCount()), Toast.LENGTH_LONG).show();
+            }
+        });
         //Get all trailers for movie
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(String.format(TRAILERS_API, movie.getMovieId()), new JsonHttpResponseHandler() {
@@ -76,7 +86,6 @@ public class DetailActivity extends YouTubeBaseActivity {
                     if(results.length() == 0){
                         youTubePlayerView.setVisibility(View.INVISIBLE);
                         ivBackdrop.setVisibility(View.VISIBLE);
-                        return;
                     }
                     else {
                         JSONObject movieTrailer = results.getJSONObject(0);
