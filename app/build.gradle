@@ -34,5 +34,6 @@ dependencies {
     annotationProcessor 'org.parceler:parceler:1.1.11'
     implementation files('lib/YouTubeAndroidPlayerApi.jar')
     implementation 'com.sefford:circular-progress-drawable:1.31@aar'
-
+    implementation 'jp.wasabeef:glide-transformations:3.3.0'
+    implementation 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
 }

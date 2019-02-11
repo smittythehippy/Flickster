@@ -12,6 +12,8 @@ import android.support.constraint.ConstraintLayout;
 
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.sefford.circularprogressdrawable.CircularProgressDrawable;
@@ -37,13 +39,16 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 public class MoviesAdapter<val> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context context;
     List<Movie> movies;
     final static double baseline = 5.0;
+    final int radius = 25;
+    final int margin = 5;
 
-    CircularProgressDrawable circular;
 
     public MoviesAdapter(Context context, List<Movie> movies) {
         this.context = context;
@@ -117,6 +122,7 @@ public class MoviesAdapter<val> extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             GlideApp.with(context)
                     .load(movie.getBackdropPath())
+                    .fitCenter()
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -130,6 +136,7 @@ public class MoviesAdapter<val> extends RecyclerView.Adapter<RecyclerView.ViewHo
                             return false;
                         }
                     })
+                    .transform(new RoundedCornersTransformation(radius, margin))
                     .into(ivBackdrop);
 
             //Add click listener on the whole row
@@ -173,6 +180,8 @@ public class MoviesAdapter<val> extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
             GlideApp.with(context)
                     .load(imageUrl)
+                    .fitCenter()
+
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -186,6 +195,7 @@ public class MoviesAdapter<val> extends RecyclerView.Adapter<RecyclerView.ViewHo
                             return false;
                         }
                     })
+                    .transform(new RoundedCornersTransformation(radius, margin))
                     .into(ivPoster);
 
             //Add click listener on the whole row
