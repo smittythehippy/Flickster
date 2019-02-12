@@ -9,14 +9,10 @@ import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.sefford.circularprogressdrawable.CircularProgressDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,11 +22,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.annotation.GlideModule;
-import com.bumptech.glide.module.AppGlideModule;
-
 import com.example.flickster.DetailActivity;
 import com.example.flickster.GlideApp;
 import com.example.flickster.Models.Movie;
@@ -42,7 +33,7 @@ import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
-public class MoviesAdapter<val> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context context;
     List<Movie> movies;
@@ -110,13 +101,16 @@ public class MoviesAdapter<val> extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         ImageView ivBackdrop;
         ProgressBar progressBar;
+        ImageView ivPlay;
         ConstraintLayout container;
+
 
         public ViewHolderBackDropOnly(@NonNull View itemView){
             super(itemView);
             ivBackdrop = itemView.findViewById(R.id.ivBackdrop);
             container = itemView.findViewById(R.id.container);
             progressBar = itemView.findViewById(R.id.progressBar);
+            ivPlay = itemView.findViewById(R.id.ivPlay);
         }
 
         public void bind(final Movie movie) {
