@@ -19,6 +19,9 @@ Flickster is an app that allows users to browse movies from the [The Movie Datab
 - [ ] Apply the popular ButterKnife annotation library to reduce view boilerplate. (1 point)
 - [x] Add a rounded corners for the images using the Glide transformations. (1 point)
 
+### App Walkthough GIF
+<img src="https://github.com/smittythehippy/Flickster/blob/master/walkthrough.gif" width=250><br>
+
 
 ## Open-source libraries used
 - [Android Async HTTP](https://github.com/loopj/android-async-http) - Simple asynchronous HTTP requests with JSON parsing
@@ -40,9 +43,6 @@ Flickster is an app that allows users to browse movies from the [The Movie Datab
 - [x] (2pts) Display a nice default [placeholder graphic](https://guides.codepath.com/android/Displaying-Images-with-the-Glide-Library#advanced-usage) for each image during loading
 - [x] (2pts) Improved the user interface by experimenting with styling and coloring.
 - [x] (2pts) For popular movies (i.e. a movie voted for more than 5 stars), the full backdrop image is displayed. Otherwise, a poster image, the movie title, and overview is listed. Use Heterogenous RecyclerViews and use different ViewHolder layout files for popular movies and less popular ones.
-
-### App Walkthough GIF
-<img src="https://github.com/smittythehippy/Flickster/blob/master/walkthrough.gif" width=250><br>
 
 ### Notes
 Describe any challenges encountered while building the app.
