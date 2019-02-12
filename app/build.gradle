@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.flickster"
-        minSdkVersion 26
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -33,7 +33,6 @@ dependencies {
     implementation 'org.parceler:parceler-api:1.1.11'
     annotationProcessor 'org.parceler:parceler:1.1.11'
     implementation files('lib/YouTubeAndroidPlayerApi.jar')
-    implementation 'com.sefford:circular-progress-drawable:1.31@aar'
     implementation 'jp.wasabeef:glide-transformations:3.3.0'
     implementation 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
 }

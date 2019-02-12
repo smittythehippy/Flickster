@@ -33,6 +33,8 @@ import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
+
+
 public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context context;
@@ -155,6 +157,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ConstraintLayout container;
         ProgressBar progressBar;
         RatingBar ratingBar;
+        ImageView ivPlay;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -164,18 +167,24 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             progressBar = itemView.findViewById(R.id.progressBar);
             container = itemView.findViewById(R.id.container);
             ratingBar = itemView.findViewById(R.id.ratingBar);
+            ivPlay = itemView.findViewById(R.id.ivPlay);
         }
 
         public void bind(final Movie movie) {
+
+            ivPlay.setVisibility(View.INVISIBLE);
 
             tvTitle.setText(movie.getTitle());
             tvOverview.setText(movie.getOverview());
             ratingBar.setRating((float)movie.getRating());
             String imageUrl = movie.getPosterPath();
+
             // Reference the backdrop path if phone is in landscape
             if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
                 imageUrl = movie.getBackdropPath();
-
+                if(movie.getRating() > baseline){
+                    ivPlay.setVisibility(View.VISIBLE);
+                }
             }
             GlideApp.with(context)
                     .load(imageUrl)
@@ -195,6 +204,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     })
                     .transform(new RoundedCornersTransformation(radius, margin))
                     .into(ivPoster);
+
 
             //Add click listener on the whole row
             //Navigate to detail activity
