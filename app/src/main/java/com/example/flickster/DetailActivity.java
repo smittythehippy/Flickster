@@ -33,15 +33,6 @@ public class DetailActivity extends YouTubeBaseActivity {
     private static final String YOUTUBE_API_KEY = "AIzaSyAgpdXCRz4VNU0_QxzALSVinrSoS1W66jk";
     private static final String TRAILERS_API = "https://api.themoviedb.org/3/movie/%d/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
 
-
-    CircularProgressDrawable circular = new CircularProgressDrawable
-            .Builder()
-            .setRingWidth(50)
-            .setOutlineColor(R.color.circularOuter)
-            .setRingColor(R.color.circularInner)
-            .setCenterColor(R.color.circularCenter)
-            .create();
-
     Movie movie;
 
     TextView tvTitle;

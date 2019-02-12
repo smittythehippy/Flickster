@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -45,8 +46,8 @@ public class MoviesAdapter<val> extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     Context context;
     List<Movie> movies;
-    final static double baseline = 5.0;
-    final int radius = 25;
+    final static double baseline = 7.0;
+    final int radius = 20;
     final int margin = 5;
 
 
@@ -159,6 +160,7 @@ public class MoviesAdapter<val> extends RecyclerView.Adapter<RecyclerView.ViewHo
         ImageView ivPoster;
         ConstraintLayout container;
         ProgressBar progressBar;
+        RatingBar ratingBar;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -167,21 +169,23 @@ public class MoviesAdapter<val> extends RecyclerView.Adapter<RecyclerView.ViewHo
             ivPoster = itemView.findViewById(R.id.ivPoster);
             progressBar = itemView.findViewById(R.id.progressBar);
             container = itemView.findViewById(R.id.container);
+            ratingBar = itemView.findViewById(R.id.ratingBar);
         }
 
         public void bind(final Movie movie) {
 
             tvTitle.setText(movie.getTitle());
             tvOverview.setText(movie.getOverview());
+            ratingBar.setRating((float)movie.getRating());
             String imageUrl = movie.getPosterPath();
             // Reference the backdrop path if phone is in landscape
             if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
                 imageUrl = movie.getBackdropPath();
+
             }
             GlideApp.with(context)
                     .load(imageUrl)
                     .fitCenter()
-
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -210,5 +214,4 @@ public class MoviesAdapter<val> extends RecyclerView.Adapter<RecyclerView.ViewHo
             });
         }
     }
-
 }

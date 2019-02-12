@@ -27,8 +27,8 @@
     </style>
 
     <style name="MyRatingBar" parent="Widget.AppCompat.RatingBar">
-        <item name="colorAccent">@color/actionBarText</item>
-        <item name="android:colorControlNormal">#747474</item>
+        <item name="colorAccent">@color/ratingColor</item>
+        <item name="android:colorControlNormal">#7A7A7A</item>
     </style>
 
 </resources>
